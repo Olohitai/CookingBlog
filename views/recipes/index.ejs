@@ -1,0 +1,72 @@
+<% layout('layout/boilerplate')%>
+    <div class="container" id="recipes-container">
+        <h1>All Recipes</h1>
+
+        <form action="/recipes" method="get">
+            <div class="input-group mb-3 w-50">
+                <input type="text" name="search" class="form-control" placeholder="recipe Search ...">
+                <button class="btn btn-outline-secondary">Search</button>
+            </div>
+        </form>
+
+
+        <% for (let recipe of (recipes.docs)){%>
+            <div class="card mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <%if(recipe.images.length) {%>
+                            <img class="img-fluid" alt="" src="<%=recipe.images[0].url%>">
+                            <% }else {%>
+                                <img class="img-fluid" alt=""
+                                    src="https://res.cloudinary.com/douqbebwk/image/upload/v1600103881/YelpCamp/lz8jjv2gyynjil7lswf4.png">
+                                <% }%>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= recipe.name %>
+                            </h5>
+                            <p class="card-text">
+                                <%= recipe.description %>
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <%= recipe.location%>
+                                </small>
+                            </p>
+                            <a class="btn btn-primary" href="/recipes/<%=recipe._id%>">View
+                                <%=recipe.name.slice(0,20)%>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }%>
+
+    </div>
+    <% if(!search && recipes.nextPage) {%>
+        <div class="text-center mb-5">
+            <a href="/recipes?page=<%= recipes.nextPage %>" class="btn btn-primary paginate">View More</a>
+        </div>
+        <% } %>
+            <% if(search && recipes.nextPage) {%>
+                <div class="text-center mb-5">
+                    <a href="/recipes?search=<%=search%>&&page=<%=recipes.nextPage%>" class="btn btn-primary paginate"
+                        class="btn btn-primary ">View
+                        More</a>
+                </div>
+                <% } %>
+
+
+                    <script>
+                        const recipes = {
+                            features: <%-JSON.stringify(recipes.docs) %>
+                    
+        }
+                    </script>
+
+
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+                        crossorigin="anonymous"></script>
+                    <script src="/javascripts/pagination.js"></script>

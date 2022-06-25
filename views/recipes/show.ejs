@@ -1,0 +1,189 @@
+<% layout('layout/boilerplate.ejs') %>
+  <link rel="stylesheet" href="/stylesheets/stars.css">
+
+  <div class="row">
+    <h1><i class="fa-solid fa-hat-chef"></i>
+      <%= recipe.name %>
+    </h1>
+    <p class="about"><%-recipe.description  %> </p>
+    <div class="flex-icon col-lg-8">
+      <p>By <a href="/users/<%=recipe.author._id %>">
+          <%= recipe.author.username %>
+        </a>
+      </p>
+
+      <% if(signedUser && recipe.author.equals(signedUser)){ %>
+        <a tabindex="0" data-bs-toggle="popover" role="button" data-bs-toggle="popover" data-bs-trigger="focus"><i
+            class="fa-solid fa-ellipsis-vertical"></i></a>
+        <div id="popover-content" class="d-none">
+          <!-- MyForm -->
+          <div class="deets">
+            <a class="nosytles " href="/recipes/<%= recipe._id %>/edit">
+              <i class="fa-solid fa-pen-to-square icon"></i>
+              <h5>Edit</h5>
+            </a>
+          </div>
+
+          <div class="deets">
+            <form class=" d-inline" action="/recipes/<%= recipe._id %>?_method=delete" method="post">
+              <button class="nostyle"><i class="fa-solid fa-trash-can icon"></i>
+                <h5>Delete</h5>
+              </button>
+            </form>
+          </div>
+        </div>
+        <% } %>
+    </div>
+    <div class="col-lg-8 col-md-12">
+      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <% recipe.images.forEach((image, index)=>{%>
+            <div class="carousel-item <%= index === 0 ? 'active' : ''%>">
+              <img src="<%= image.url %>" class="d-block w-100" alt="...">
+            </div>
+            <% }) %>
+
+
+        </div>
+        <% if(recipe.images.length> 1) {%>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+          <% } %>
+
+      </div>
+
+    </div>
+    <div class="col-lg-4 col-md-6 pt-2">
+
+      <h2><i class="fa-solid fa-mortar-pestle icons"></i>Ingredients</h2>
+      <ul class="list-group list-group-flush">
+        <% recipe.ingredients.forEach(function(ingredients, index){ %>
+          <li class="list-group-item">
+            <input type="checkbox" class="icons">
+            <%= ingredients %>
+          </li>
+          <% }) %>
+      </ul>
+    </div>
+    <hr>
+    <div class="col-lg-12 col-md-6 direction">
+
+      <h3><i class="fa-solid fa-pen icons"></i>Directions</h3>
+
+      <p>
+        <%= recipe.direction %>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <% if(signedUser){ %>
+        <h2>Leave a Review</h2>
+        <!-- <div class="card-footer text-muted">2 days ago</div> -->
+        <form action="/recipes/<%= recipe._id %>/reviews" method="post" class="mb-3 validated-form" novalidate>
+          <!-- <div class="mb-3">
+    <label class="form-label" for="rating">Rating</label>
+    <input
+      type="range"
+      min="1"
+      max="5"
+      class="form-range"
+      name="review[rating]"
+      id="rating"
+    />
+  </div> -->
+          <div class="">
+            <fieldset class="starability-basic">
+              <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
+                aria-label="No rating." />
+              <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+              <label for="first-rate1" title="Terrible">1 star</label>
+              <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+              <label for="first-rate2" title="Not good">2 stars</label>
+              <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+              <label for="first-rate3" title="Average">3 stars</label>
+              <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+              <label for="first-rate4" title="Very good">4 stars</label>
+              <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+              <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="body">Comment</label>
+            <textarea name="review[body]" id="body" cols="30" rows="3" class="form-control" required></textarea>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Cannot be blank.</div>
+          </div>
+          <button class="btn btn-outline-success">Submit</button>
+        </form>
+        <% } %>
+          <% for( let review of recipe.reviews) {%>
+            <div class="card mb-3 line">
+              <div class="card-body">
+                <div class="flex-icon">
+                  <h5 class="card-title">
+                    <i class="fa-solid fa-user ">
+                      <a href="/users/<%-recipe.author._id  %> ">
+                        <%= review.author.username %>
+
+                    </i>
+                  </h5>
+                  <% if(signedUser && review.author.equals(signedUser)){ %>
+                    <a tabindex="0" data-bs-toggle="popover-review" role="button" data-bs-toggle="popover"
+                      data-bs-trigger="focus"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+                    <div id="popover-review" class="d-none">
+                      <!-- MyForm -->
+                      <div class="deets">
+                        <form class='d-inline'
+                          action="/recipes/<%= recipe._id %>/reviews/<%= review._id %>?_method=delete" method="post">
+                          <button class="nostyle"><i class="fa-solid fa-trash-can icon"></i>
+                            <h5>Delete</h5>
+                          </button>
+                        </form>
+                      </div>
+                      <% } %>
+                    </div>
+                </div>
+
+
+                <p class="starability-result" data-rating="<%= review.rating %>">
+                  Rated: <%= review.rating %> stars
+                </p>
+
+                <p class="card-text">
+                  <%= review.body %>
+                </p>
+
+                </p>
+
+
+                <%} %>
+              </div>
+            </div>
+    </div>
+
+
+
+
+
+    <script>
+      const recipe = <% - JSON.stringify(recipe) %>
+      //Passing recipe data to mapShowpage so that we can use it's geometry coordinates to be the center our map
+  //JSON.stringify was to turn the objectid to string because number is not valid javascript in ur script 
+    </script>

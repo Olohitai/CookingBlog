@@ -1,0 +1,41 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark " >
+  <div class="container-fluid">
+     <!-- <a class="navbar-brand" href="/">FabRecipes</a> -->
+     <a href="/" class="d-flex navbar-brand align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+      <img src="/images/logo (1).png"  style="width: 80px; height:50px" alt="Cooking Blog - Made with Node.js">
+    </a> 
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <!-- <li >
+          <a class="nav-link" href="/">Home</a> -->
+        <!-- </li > -->
+        <li class="nav-item"><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
+
+        <li class="nav-item"><a href="/about" class="nav-link px-2 link-secondary">About</a></li>
+        <li class="nav-item"><a href="/recipes/new" class="nav-link px-2 link-secondary">Submit</a></li>
+        <li class="nav-item"><a href="/contact" class="nav-link px-2 link-secondary">Contact</a></li>
+        <li class="nav-item"><a class="nav-link px-2 link-secondary" href="/recipes">All recipes</a></li>
+      </ul>
+
+      <form action="/recipes" method="get">
+        <div class="input-group mb-3 w-50">
+          <input type="text" name="search" class="form-control" placeholder="Find a Recipe ...">
+          <button class="btn btn-outline-secondary">Search</button>
+        </div>
+      </form>
+      <div class="navbar-nav ms-auto">
+        <% if(!signedUser){%>
+          <a class="nav-link px-2 link-secondary" href="/login">Login</a>
+          <a class="nav-link px-2 link-secondary" href="/register">Register</a>
+          } <% } else { %>
+
+            <a class="nav-link px-2 link-secondary" href="/logout">Logout</a>
+            <%}%>
+      </div>
+    </div>
+  </div>
+</nav>

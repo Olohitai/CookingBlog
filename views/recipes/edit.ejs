@@ -1,0 +1,102 @@
+<% layout('layout/boilerplate.ejs') %>
+  <link rel="stylesheet" href="/stylesheets/image.css">
+  <div class="row">
+    <h1 class="text-center">Edit recipe</h1>
+    <div class="col-6 offset-3">
+      <form action="/recipes/<%= recipe._id %>?_method=PUT" method="post" novalidate class="validated-form"
+        enctype="multipart/form-data">
+        <div class="col-12">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" name="recipe[email]" id="email" class=" form-control" value="<%= recipe.email %> ">
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label" for="title">Name</label>
+          <input class="form-control" type="text" id="title" name="recipe[title]" value="<%= recipe.name %>"
+            required />
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Cannot be blank.</div>
+        </div>
+        <div class="col-12">
+          <label for="direction" class="form-label">Direction</label>
+          <textarea name="recipe[direction]" id="direction" class=" form-control" cols="30" rows="4"><%= recipe.direction %> </textarea>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Required</div>
+        </div>
+
+
+        
+        <div class="col-12">
+          <label for="name" class="form-label">Ingredients</label><br>
+          <small>Example: Ice</small>
+          <div class="ingredientList">
+            <div class="ingredeintDiv mb-2">
+              <% recipe.ingredients.forEach((ingredient, index) => { %>
+                <input type="text" name="recipe[ingredients]" class=" form-control mb-2" value="<%=ingredient  %> ">
+              <% }) %>
+              
+            </div>
+          </div>
+        </div>
+
+        
+
+        <div class="col-12">
+          <button type="button" class="btn btn-outline-primary" id="addIngredientsBtn">+ Ingredient</button>
+        </div>
+       
+        <div class="mb-3">
+          <label class="form-label" for="description">Description Url</label>
+          <textarea class="form-control" type="text" id="description" name="recipe[description]" cols="30" rows="10"
+            required>
+           <%= recipe.description %>
+        </textarea>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Cannot be blank.</div>
+        </div>
+        <div class="col-12">
+          <label for="category">Select Category</label>
+          <select class="form-select form-control" name="category" aria-label="Category">
+            <option selected>Select Category</option>
+            <option value="Appetizers and snacks">Appetizers and snacks</option>
+            <option value="Breakfast and Brunch Recipe">Breakfast and Brunch Recipe</option>
+            <option value="Cookies">Cookies</option>
+            <option value="Soups, Stews Recipe">Soups, Stews Recipe</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Chicken Recipes">Chicken Recipes</option>
+            <option value="BBQ & Grilling">BBQ & Grilling</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="formFileMultiple" class="form-label">Add Images</label>
+          <input class="form-control" type="file" id="formFileMultiple" multiple name="image">
+
+        </div>
+        <div class="mb-3">
+          <div class="mb-3">
+            <h5> Delete Images </h5>
+            <div class="row row-cols-1 row-cols-md-4 g-4 mb-3">
+              <% recipe.images.forEach((image, i)=> { %>
+                <div class="col">
+                  <div class="card">
+                    <img class="card-img" src="<%= image.thumbnail %>" alt="">
+                    <div class="card-img-overlay text-end pt-1 pe-2">
+                      <label class="visually-hidden" for="image-<%= i %>">Delete Image</label>
+                      <input class="form-check-input" type="checkbox" name="deleteImages[]"
+                        value="<%= image.filename %>" id="image-<%= i %>">
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <button class="btn btn-info">Save Changes</button>
+          </div>
+
+      </form>
+      <a href="/recipes/<%= recipe._id %>">Back To recipe</a>
+    </div>
+  </div>

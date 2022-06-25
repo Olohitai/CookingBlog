@@ -1,0 +1,161 @@
+
+
+<% layout('layout/boilerplate.ejs') %>
+
+
+
+    <section class="banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <h4>Here you can find delecious foods</h4>
+                    <h2>Welcome to Fab Recipes</h2>
+                    <p>Explore Some of the best recipes around the world and TASTE THE dIFFERENCE.</p>
+                    <div class="primary-button">
+                        <a href="/recipes" >View Recipes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3 py-4 position-relative">
+
+
+        <% if(categories !='' ) { %>
+            <% categories.forEach(function(category, index) { %>
+                <a href="/recipes/categories/<%- category.name %>" class="col text-center category__link">
+                    <div class="category__img_home shadow">
+                        <img src="<%- category.image %>" alt="<%- category.name %>" loading="lazy">
+                    </div>
+                    <div class="pt-1">
+                        <%- category.name %>
+                    </div>
+                </a>
+                <% }) %>
+                    
+
+                        <a href="/categories" class="col text-center category__link view-all">
+                            <div class=" ">
+                                <i class="fa-solid fa-arrow-right-long"></i>
+                                <!-- <img src="img/view-all.jpg" alt="View All Categories" loading="lazy"> -->
+                            </div>
+                            <div class="pt-1">View All</div>
+                        </a><% } %>
+
+    </div>
+
+
+    <section class="featured-food">
+        <div class="container">
+            <div class="row">
+                <div class="heading">
+                    <h2>Weekly Featured Food</h2>
+                </div>
+            </div>
+            <div class="row">
+                <% latest.slice(0,3).forEach(function(recipe, index) { %>
+                    <div class="col-md-4">
+                        <div class="food-item">
+                            <h2><a href="/recipes/<%-recipe._id %>">
+                                <%-recipe.name %></a>
+                            </h2>
+                            <img src="<%-recipe.images[0].url  %>" alt="">
+
+                            <div class="text-content">
+                                <h4>By  <a href="/users/<%=recipe.author._id %> "><%= recipe.author.username %></a></h4>
+                                <p>
+                                    <%#=recipe.directions.slice(0,60) %> 
+                                    <%= recipe.description.slice(0,60) %>...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <section class="px-4 py-5 my-5 text-center publish">
+        <h1 class="display-5 fw-bold">Publish your recipe for FREE today</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Publish your Recipe in front of thousands of people for free.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="/recipes/new" class="btn btn-primary btn-dark btn-lg">Submit Recipe</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="our-blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="heading">
+                        <h2>Our Recipes</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <% latest.slice(3, 10).forEach(function(recipe, index) { %>
+                    <div class="col-md-6">
+                        <div class="blog-post">
+
+                            <div class="date">21 Oct 2022</div>
+                            <img src="<%= recipe.images[0].url  %> " alt="">
+                            <div class="date">26 Oct 2022</div>
+                            <div class="right-content">
+                                <h4>
+                                    <%= recipe.name %>
+                                </h4>
+                                <p>
+                                    <%= recipe.description.slice(0,60) %>...
+                                </p>
+                                <div class="text-button">
+                                    <a href="/recipes/<%= recipe._id %>">Continue Reading</a>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <% }) %>
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <section class="sign-up">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="heading">
+                        <h2>Signup for our newsletters</h2>
+                    </div>
+                </div>
+            </div>
+            <form id="contact" action="" method="get">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-3">
+                        <fieldset>
+                            <input name="email" type="text" class="form-control" id="email"
+                                placeholder="Enter your email here..." required="">
+                        </fieldset>
+                    </div>
+                    <div class="col-md-2">
+                        <fieldset>
+                            <button type="submit" id="form-submit" class="btn">Send Message</button>
+                        </fieldset>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
