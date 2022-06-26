@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(mongoSanitize());
 
-const secret = process.env.SECRET || "mysecretsession";
+const secret = process.env.SECRET || "mysecretsessions";
 const store = MongoDBStore.create({
   mongoUrl: dburl,
   crypto: {
@@ -62,7 +62,7 @@ const store = MongoDBStore.create({
 
 const sessionConfig = {
   store,
-  name: "session",
+  name: "sessions",
   secret: secret,
   resave: false,
   saveUninitialized: true,
