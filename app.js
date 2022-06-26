@@ -53,7 +53,7 @@ app.use(mongoSanitize());
 
 const secret = process.env.SECRET || "mysecretsessions";
 const store = MongoDBStore.create({
-  mongoUrl: dburl,
+  mongoUrl: process.env.DB_URL,
   crypto: {
     secret,
   },
