@@ -1,0 +1,3 @@
+[build]
+  command = "npx ejs-cli render **/*.ejs -o public"
+  publish = "public"
